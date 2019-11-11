@@ -1,0 +1,5 @@
+database/*
+project/*
+
+!database/.gitkeep
+!project/.gitkeep
