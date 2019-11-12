@@ -14,3 +14,5 @@ if [[ "$MARIADB_NEEDS_INITIAL_SETUP" == "yes" ]]; then
   mysql -u root -e "CREATE USER 'project'@'localhost' IDENTIFIED BY 'ibzti18';"
   mysql -u root -e "FLUSH PRIVILEGES;"
 fi
+
+tail -f /dev/null
