@@ -20,7 +20,7 @@ dir=$(find . -mindepth 1 -maxdepth 1 -type d)
 cd "$dir"
 
 [ ! -L adminer.php ] && ln -s /usr/share/nginx/html/adminer.php adminer.php
-[ ! -L webhook.php ] && ln -s /usr/share/nginx/html/webhook.php adminer.php
+[ ! -L webhook.php ] && ln -s /usr/share/nginx/html/webhook.php webhook.php
 
 cd /
 
