@@ -30,6 +30,7 @@ git remote add origin <https-origin>
 ### Service setup
 * `<GroupName>` is a descriptive name. -  e.g. "Sven/Andre"
 * `<GroupDirectory>` is the subdirectory where the project lies. - e.g. "wt-sa-1"
+* `<HookSecret>` secret used by GitHub webhook
 
 Store as `docker_ibzti18w_<GroupDirectory>.service`
 ```
@@ -49,7 +50,7 @@ ExecStart=/usr/bin/docker run --name %n \
   -p 26661:80 \
   -v /opt/ibzti18w/<GroupDirectory>/project:/usr/share/nginx/html/ibzti18w/<GroupDirectory>/project \
   -v /opt/ibzti18w/<GroupDirectory>/database:/var/lib/mysql \
-  -e HOOK_SECRET=ibzti18 \
+  -e HOOK_SECRET=<HookSecret> \
   ibzproject
 ExecStop=/usr/bin/docker stop %n
 
