@@ -10,7 +10,12 @@ Restart=always
 WorkingDirectory=/opt/ibzti18w/wt-sa-1
 ExecStartPre=-/usr/bin/docker stop %n
 ExecStartPre=-/usr/bin/docker rm %n
-ExecStart=/usr/bin/docker run --name %n -p 26661:80 -v /opt/ibzti18w/wt-sa-1/project:/usr/share/nginx/html/project -v /opt/ibzti18w/wt-sa-1/database:/var/lib/mysql ibzproject
+ExecStart=/usr/bin/docker run --name %n \
+  -p 26661:80 \
+  -v /opt/ibzti18w/wt-sa-1/project:/usr/share/nginx/html/ibzti18w/wt-sa-1/project \
+  -v /opt/ibzti18w/wt-sa-1/database:/var/lib/mysql \
+  -e HOOK_SECRET=ibzti18 \
+  ibzproject
 ExecStop=/usr/bin/docker stop %n
 
 [Install]

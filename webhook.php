@@ -5,7 +5,8 @@
  * @see  https://developer.github.com/webhooks/
  * @author  Miloslav Hůla (https://github.com/milo)
  */
-$hookSecret = 's.e.c.r.e.t';  # set NULL to disable check
+
+$hookSecret = trim(readfile("/etc/hook_secret"));
 set_error_handler(function($severity, $message, $file, $line) {
 	throw new \ErrorException($message, 0, $severity, $file, $line);
 });

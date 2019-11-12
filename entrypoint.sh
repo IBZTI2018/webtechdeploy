@@ -1,5 +1,7 @@
 #!/bin/bash
 
+echo "$HOOK_SECRET" > /etc/hook_secret
+
 if [ ! -d /var/lib/mysql/mysql ]; then
   MARIADB_NEEDS_INITIAL_SETUP="yes"
   rm -rf /var/lib/mysql/*
