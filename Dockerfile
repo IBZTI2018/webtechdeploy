@@ -42,8 +42,10 @@ RUN apt-get install -y \
 COPY adminer.php /usr/share/nginx/html
 COPY webhook.php /usr/share/nginx/html
 COPY entrypoint.sh /usr/sbin/
+COPY update.sh /usr/sbin/
 COPY nginx.conf /etc/nginx/sites-available/default
 
+RUN chmod +x /usr/sbin/update.sh
 RUN chmod +x /usr/sbin/entrypoint.sh
 RUN chown -R www-data:www-data /usr/share/nginx/html
 RUN mkdir -p /usr/share/nginx/html/project

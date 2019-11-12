@@ -20,6 +20,13 @@ mysql
 > FLUSH PRIVILEGES;
 ```
 
+### Git Setup
+Inside this cloned repository, navigate to `./project` and...
+```
+git init
+git remote add origin <https-origin>
+```
+
 ### Service setup
 * `<GroupName>` is a descriptive name. -  e.g. "Sven/Andre"
 * `<GroupDirectory>` is the subdirectory where the project lies. - e.g. "wt-sa-1"
