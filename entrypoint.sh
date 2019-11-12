@@ -21,6 +21,8 @@ cd /usr/share/nginx/html/ibzti18w
 dir=$(find . -mindepth 1 -maxdepth 1 -type d)
 cd "$dir"
 
+chmod -R 777 ./project
+
 [ ! -L adminer.php ] && ln -s /usr/share/nginx/html/adminer.php adminer.php
 [ ! -L webhook.php ] && ln -s /usr/share/nginx/html/webhook.php webhook.php
 
