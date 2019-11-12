@@ -4,12 +4,14 @@ After=docker.service
 Requires=docker.service
 
 [Service]
-TimeoutStartSec=0
+TimeoutStartSec=60
+RestartSec=60
 Restart=always
-WorkingDirectory=/opt/ibzti18/wt-sa-1
+WorkingDirectory=/opt/ibzti18w/wt-sa-1
 ExecStartPre=-/usr/bin/docker stop %n
 ExecStartPre=-/usr/bin/docker rm %n
-ExecStart=/usr/bin/docker run --name %n -p 26661:80 -v $(pwd)/project:/usr/share/nginx/html/project -v $(pwd)/database:/var/lib/mysql ibzproject
+ExecStart=/usr/bin/docker run --name %n -p 26661:80 -v /opt/ibzti18w/wt-sa-1/project:/usr/share/nginx/html/project -v /opt/ibzti18w/wt-sa-1/database:/var/lib/mysql ibzproject
+ExecStop=/usr/bin/docker stop %n
 
 [Install]
 WantedBy=multi-user.target
