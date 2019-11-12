@@ -1,4 +1,11 @@
 # IBZ TI18W Dockerized LAMP deployment
+This project allows deploying docker containers with a self-contained LAMP stack (+[adminer.php](https://www.adminer.org/)) to a shared host. This way, PHP+MySQL projects can be developed in a repository and are automatically deployed to a host, without having to run all the PHP code (and its potential system / file interactions) on the host system.
+
+In practial use, we clone this repository to the "prod" host for each project, set up its `/project` dir, build the container (once), and run it via the systemd service file pasted below.
+
+This repository does **not** provide a finished project. It could give you an idea of how to build an isolated LAMP container and deploy it to an existing nginx webhost, though.
+
+-----
 
 ### Docker setup
 ```
@@ -57,3 +64,20 @@ ExecStop=/usr/bin/docker stop %n
 [Install]
 WantedBy=multi-user.target
 ```
+
+### Problems
+The projects are exposed as subdirectories from the host using the following nginx configuration:
+
+```
+location ~* /ibzti18w/project1/(?<path>.*$) {
+    set $path "ibzti18w/project1/${path}";
+    set $upstream "http://127.0.0.1:26661/";
+    proxy_pass $upstream$path$is_args$args;
+    proxy_http_version 1.1;
+    proxy_set_header Upgrade $http_upgrade;
+    proxy_set_header Connection "upgrade";
+    proxy_set_header Host $host;
+}
+```
+
+This works but requires the `/ibzti18w/project1` directory structure to be replicated inside the container, since otherwhise PHP will use the wrong base path for redirects. I'm sure there's some way to fix this by configuration but I could not figure it out in time.
