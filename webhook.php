@@ -6,7 +6,7 @@
  * @author  Miloslav Hůla (https://github.com/milo)
  */
 
-$hookSecret = trim(readfile("/etc/hook_secret"));
+$hookSecret = trim(file_get_contents("/etc/hook_secret"));
 set_error_handler(function($severity, $message, $file, $line) {
 	throw new \ErrorException($message, 0, $severity, $file, $line);
 });
