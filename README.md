@@ -21,13 +21,6 @@ docker run --rm --name ibzti18wtsa1 \
   -it ibzproject bash
 ```
 
-### Database setup (automated by entrypoint.sh)
-```
-mysql
-> CREATE USER 'project'@'localhost' IDENTIFIED BY '...';
-> FLUSH PRIVILEGES;
-```
-
 ### Git Setup
 Inside this cloned repository, navigate to `./project` and...
 ```
