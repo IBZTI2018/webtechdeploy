@@ -1,9 +1,9 @@
-# IBZ TI18W Dockerized LAMP deployment
-This project allows deploying docker containers with a self-contained LAMP stack (+[adminer.php](https://www.adminer.org/)) to a shared host. This way, PHP+MySQL projects can be developed in a repository and are automatically deployed to a host, without having to run all the PHP code (and its potential system / file interactions) on the host system.
+# IBZ TI18W Dockerized LEMP deployment
+This project allows deploying docker containers with a self-contained LEMP stack (+[adminer.php](https://www.adminer.org/)) to a shared host. This way, PHP+MySQL projects can be developed in a repository and are automatically deployed to a host, without having to run all the PHP code (and its potential system / file interactions) on the host system.
 
 In practial use, we clone this repository to the "prod" host for each project, set up its `/project` dir, build the container (once), and run it via the systemd service file pasted below. It assumes the projects to be stored in `/opt/ibzti18w/<ProjectDirectory>`.
 
-This repository does **not** provide a finished project. It could give you an idea of how to build an isolated LAMP container and deploy it to an existing nginx webhost, though.
+This repository does **not** provide a finished project. It could give you an idea of how to build an isolated LEMP container and deploy it to an existing nginx webhost, though.
 
 -----
 
