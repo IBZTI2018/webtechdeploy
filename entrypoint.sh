@@ -31,4 +31,9 @@ chmod -R 777 ./project
 
 cd /
 
+# dynamically set up nginx index rewrite
+nginxconfig=/etc/nginx/sites-available/default
+sed -i "s/^.*#dynamicrewrite$/    try_files \$uri \$uri\/ \/ibzti18w\/$dir\/index.php?\$query_string; #dynamicrewrite/" $nginxconfig
+
+
 tail -f /dev/null
