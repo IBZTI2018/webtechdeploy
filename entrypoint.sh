@@ -21,8 +21,8 @@ if [[ "$MARIADB_NEEDS_INITIAL_SETUP" == "yes" ]]; then
 fi
 
 cd /usr/share/nginx/html/ibzti18w
-dir=$(find . -mindepth 1 -maxdepth 1 -type d)
-cd "$dir"
+appdir=$(find . -mindepth 1 -maxdepth 1 -type d)
+cd "$appdir"
 
 chmod -R 777 ./project
 
@@ -33,7 +33,7 @@ cd /
 
 # dynamically set up nginx index rewrite
 nginxconfig=/etc/nginx/sites-available/default
-sed -i "s/^.*#dynamicrewrite$/    try_files \$uri \$uri\/ \/ibzti18w\/$dir\/index.php?\$query_string; #dynamicrewrite/" $nginxconfig
-
+sed -i "s/^.*#dynamicrewrite$/    try_files \$uri \$uri\/ \/ibzti18w\/$appdir\/index.php?\$query_string; #dynamicrewrite/" $nginxconfig
+/etc/init.d/nginx reload
 
 tail -f /dev/null
