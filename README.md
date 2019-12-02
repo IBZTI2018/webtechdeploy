@@ -60,7 +60,7 @@ WantedBy=multi-user.target
 ```
 
 ### Problems
-The projects are exposed as subdirectories from the host using the following nginx configuration:
+**[1]** The projects are exposed as subdirectories from the host using the following nginx configuration:
 
 ```
 location ~* /ibzti18w/project1/(?<path>.*$) {
@@ -75,3 +75,5 @@ location ~* /ibzti18w/project1/(?<path>.*$) {
 ```
 
 This works but requires the `/ibzti18w/project1` directory structure to be replicated inside the container, since otherwhise PHP will use the wrong base path for redirects. I'm sure there's some way to fix this by configuration but I could not figure it out in time.
+
+**[2]** Adminer is copy/pasted into this repository, ideally, we would update the dockerfile or entrypoint to fetch the latest version. But this works fine for the time being.
