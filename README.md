@@ -21,7 +21,7 @@ git remote add origin <https-origin>
 Create a systemd service for the project with a file like the following:
 * `<your-project-directory>` is the directory of this repository on the host. e.g `/opt/webtechdeploy`
 * `<your-deploy-secret>` secret used by your GitHub deploy webhook (specify any)
-* `<your-project-host>` subdomain your project should use ([see here](https://github.com/jwilder/nginx-proxy#usage))
+* `<your-project-domain>` subdomain your project should use ([see here](https://github.com/jwilder/nginx-proxy#usage))
 
 ```
 [Unit]
@@ -41,7 +41,7 @@ ExecStart=/usr/bin/docker run --name %n \
   -v <your-project-directory>/project:/usr/share/nginx/html \
   -v <your-project-directory>/database:/var/lib/mysql \
   -e HOOK_SECRET=<your-deploy-secret> \
-  -e VIRTUAL_HOST=<your-project-host> \
+  -e VIRTUAL_HOST=<your-project-domain> \
   ibzproject
 ExecStop=/usr/bin/docker stop %n
 
@@ -50,3 +50,6 @@ WantedBy=multi-user.target
 ```
 
 Store for example as `webtechdeploy-project1.service` in `/opt/systemd/system`.
+
+#### 5. Set up your GitHub webhook
+Set up your GitHub repository to trigger a webhook on each push. Use `https://<your-project-domain>/~admin/webhook.php` as URL and your `<your-deploy-secret>` as secret. 
