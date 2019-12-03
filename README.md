@@ -1,42 +1,31 @@
 # IBZ TI18W Dockerized LEMP deployment
-This project allows deploying docker containers with a self-contained LEMP stack (+[adminer.php](https://www.adminer.org/)) to a shared host. This way, PHP+MySQL projects can be developed in a repository and are automatically deployed to a host, without having to run all the PHP code (and its potential system / file interactions) on the host system.
+This projects assumes that [nginx-proxy](https://github.com/jwilder/nginx-proxy) is running on your deployment host. It will create a self-container docker container with a LEMP stack (and [adminer.php](https://www.adminer.org/)) inside, that allows deploying a PHP+MySQL application directly via GitHub hooks. The intent of this project is to allow deployment of projects independent from the target host, so that they cannot interfere with the host system.
 
-In practial use, we clone this repository to the "prod" host for each project, set up its `/project` dir, build the container (once), and run it via the systemd service file pasted below. It assumes the projects to be stored in `/opt/ibzti18w/<ProjectDirectory>`.
+----
 
-This repository does **not** provide a finished project. It could give you an idea of how to build an isolated LEMP container and deploy it to an existing nginx webhost, though.
+## Installation
+#### 1. Install nginx-proxy
+Install and configure [nginx-proxy](https://github.com/jwilder/nginx-proxy) on your host system.
 
------
+#### 2. Clone this repository for each project
+Clone this repository, navigate into its directory and build the docker container via `docker build -t webtechdeploy .`
 
-### Docker setup
-```
-# Build containers
-docker build -t ibzproject .
-
-# Start container manually
-docker run --rm --name ibzti18wtsa1 \
-  -p 8080:80 \
-  -v $(pwd)/project:/usr/share/nginx/html \
-  -v $(pwd)/database:/var/lib/mysql \
-  -e HOOK_SECRET=<HookSecret> \
-  -it ibzproject bash
-```
-
-### Git Setup
-Inside this cloned repository, navigate to `./project` and...
+#### 3. Set up your local repository
+Navigate into the `./project` directory inside this repository and set up your git repository. This assumes your repository is publically available.
 ```
 git init
 git remote add origin <https-origin>
 ```
 
-### Service setup
-* `<GroupName>` is a descriptive name. -  e.g. "Sven/Andre"
-* `<ProjectDirectory>` is the subdirectory where the project lies. - e.g. "wt-sa-1"
-* `<HookSecret>` secret used by GitHub webhook
+#### 4. Create a service for the project
+Create a systemd service for the project with a file like the following:
+* `<your-project-directory>` is the directory of this repository on the host. e.g `/opt/webtechdeploy`
+* `<your-deploy-secret>` secret used by your GitHub deploy webhook (specify any)
+* `<your-project-host>` subdomain your project should use ([see here](https://github.com/jwilder/nginx-proxy#usage))
 
-Store as `docker_ibzti18w_<ProjectDirectory>.service`
 ```
 [Unit]
-Description=IBZ TI18 WebTech <GroupName>
+Description=<your-project-name>
 After=docker.service
 Requires=docker.service
 
@@ -44,14 +33,15 @@ Requires=docker.service
 TimeoutStartSec=60
 RestartSec=60
 Restart=always
-WorkingDirectory=/opt/ibzti18w/<ProjectDirectory>
+WorkingDirectory=<your-project-directory>
 ExecStartPre=-/usr/bin/docker stop %n
 ExecStartPre=-/usr/bin/docker rm %n
 ExecStart=/usr/bin/docker run --name %n \
   -p 26661:80 \
-  -v /opt/ibzti18w/<ProjectDirectory>/project:/usr/share/nginx/html/ibzti18w/<ProjectDirectory>/project \
-  -v /opt/ibzti18w/<ProjectDirectory>/database:/var/lib/mysql \
-  -e HOOK_SECRET=<HookSecret> \
+  -v <your-project-directory>/project:/usr/share/nginx/html \
+  -v <your-project-directory>/database:/var/lib/mysql \
+  -e HOOK_SECRET=<your-deploy-secret> \
+  -e VIRTUAL_HOST=<your-project-host> \
   ibzproject
 ExecStop=/usr/bin/docker stop %n
 
@@ -59,21 +49,4 @@ ExecStop=/usr/bin/docker stop %n
 WantedBy=multi-user.target
 ```
 
-### Problems
-**[1]** The projects are exposed as subdirectories from the host using the following nginx configuration:
-
-```
-location ~* /ibzti18w/project1/(?<path>.*$) {
-    set $path "ibzti18w/project1/${path}";
-    set $upstream "http://127.0.0.1:26661/";
-    proxy_pass $upstream$path$is_args$args;
-    proxy_http_version 1.1;
-    proxy_set_header Upgrade $http_upgrade;
-    proxy_set_header Connection "upgrade";
-    proxy_set_header Host $host;
-}
-```
-
-This works but requires the `/ibzti18w/project1` directory structure to be replicated inside the container, since otherwhise PHP will use the wrong base path for redirects. I'm sure there's some way to fix this by configuration but I could not figure it out in time.
-
-**[2]** Adminer is copy/pasted into this repository, ideally, we would update the dockerfile or entrypoint to fetch the latest version. But this works fine for the time being.
+Store for example as `webtechdeploy-project1.service` in `/opt/systemd/system`.
