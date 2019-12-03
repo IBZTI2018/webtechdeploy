@@ -5,6 +5,17 @@ git reset --hard
 git clean -df
 git pull origin master
 
+if [ -f "./.webtechdeploy/postinstall.sh" ]; then
+  bash ./.webtechdeploy/postinstall.sh
+fi
+
+if [ -f "./.webtechdeploy/nginx.conf" ]; then
+  cp ./.webtechdeploy/nginx.conf /etc/nginx/sites-available/default
+  /etc/init.d/nginx restart
+fi
+
+rm -rf ./.webtechdeploy
+
 mkdir -p "~admin"
 cd "~admin"
 

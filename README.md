@@ -59,3 +59,36 @@ Set up your GitHub repository to trigger a webhook on each push. Use `https://<y
 Your project is now available at `https://<your-project-domain>/`     
 Adminer is available at `https://<your-project-domain>/~admin/adminer.php` (default credentials for connections from localhost: `project:ibzti18`)    
 The database is persisted to the host system via docker volume
+
+
+### Customization
+Projects deployed via this repository can contain a `.webtechdeploy` folder in their root to change some behaviour.
+
+* `./.webtechdeploy/postinstall.sh` Will be executed after installation.
+* `./.webtechdeploy/nginx.conf` Will be used as nginx config withing the container
+
+Example nginx config with index rewriting:
+```
+server {
+  listen 80 default_server;
+  listen [::]:80 default_server;
+
+  server_name _;
+
+  root /usr/share/nginx/html;
+
+  index index.php;
+
+  location / {
+    try_files $uri $uri/ /index.php?$query_string;
+  }
+
+  location ~ .php$ {
+    try_files $uri =404;
+    fastcgi_pass unix:/var/run/php/php7.3-fpm.sock;
+    fastcgi_index index.php;
+    include fastcgi_params;
+    fastcgi_param  SCRIPT_FILENAME $request_filename;
+  }
+}
+```
