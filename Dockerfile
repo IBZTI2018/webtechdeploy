@@ -42,7 +42,7 @@ RUN apt-get install -y \
 RUN mkdir /opt/webtechdeploy
 WORKDIR /opt/webtechdeploy
 
-RUN curl https://github.com/vrana/adminer/releases/download/v4.7.5/adminer-4.7.5-en.php -o adminer.php
+RUN curl -L https://github.com/vrana/adminer/releases/download/v4.7.5/adminer-4.7.5-en.php -o adminer.php
 COPY webhook.php /opt/webtechdeploy
 
 COPY nginx.conf /etc/nginx/sites-available/default
