@@ -21,7 +21,7 @@ if [[ "$MARIADB_NEEDS_INITIAL_SETUP" == "yes" ]]; then
 fi
 
 mkdir -p "/usr/share/nginx/html/~admin"
-cd /usr/share/nginx/html/~admin
+cd "/usr/share/nginx/html/~admin"
 
 [ ! -L adminer.php ] && ln -s /opt/webtechdeploy/adminer.php adminer.php
 [ ! -L adminer.php ] && ln -s /opt/webtechdeploy/webhook.php/ webhook.php
