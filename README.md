@@ -8,7 +8,8 @@ This projects assumes that [nginx-proxy](https://github.com/jwilder/nginx-proxy)
 Install and configure [nginx-proxy](https://github.com/jwilder/nginx-proxy) on your host system.
 
 #### 2. Clone this repository for each project
-Clone this repository, navigate into its directory and build the docker container via `docker build -t webtechdeploy .`
+Clone this repository, navigate into its directory and build the docker container via `docker build -t webtechdeploy .`   
+ (You only need to do this once for the first project or once when using a newer version of this repository)
 
 #### 3. Set up your local repository
 Navigate into the `./project` directory inside this repository and set up your git repository. This assumes your repository is publically available.
@@ -53,3 +54,8 @@ Store for example as `webtechdeploy-project1.service` in `/opt/systemd/system`.
 
 #### 5. Set up your GitHub webhook
 Set up your GitHub repository to trigger a webhook on each push. Use `https://<your-project-domain>/~admin/webhook.php` as URL and your `<your-deploy-secret>` as secret. 
+
+#### 6. Ta-Da!
+Your project is now available at `https://<your-project-domain>/`     
+Adminer is available at `https://<your-project-domain>/~admin/adminer.php` (default credentials for connections from localhost: `project:ibzti18`)    
+The database is persisted to the host system via docker volume
