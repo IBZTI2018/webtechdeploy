@@ -20,20 +20,4 @@ if [[ "$MARIADB_NEEDS_INITIAL_SETUP" == "yes" ]]; then
   mysql -u root -e "FLUSH PRIVILEGES;"
 fi
 
-cd /usr/share/nginx/html/ibzti18w
-appdir=$(find . -mindepth 1 -maxdepth 1 -type d)
-cd "$appdir"
-
-chmod -R 777 ./project
-
-[ ! -L adminer.php ] && ln -s /usr/share/nginx/html/adminer.php adminer.php
-[ ! -L webhook.php ] && ln -s /usr/share/nginx/html/webhook.php webhook.php
-
-cd /
-
-# dynamically set up nginx index rewrite
-nginxconfig=/etc/nginx/sites-available/default
-sed -i "s/^.*#dynamicrewrite$/    try_files \$uri \$uri\/ \/ibzti18w\/$appdir\/project\/index.php?\$query_string; #dynamicrewrite/" "$nginxconfig"
-/etc/init.d/nginx reload
-
 tail -f /dev/null

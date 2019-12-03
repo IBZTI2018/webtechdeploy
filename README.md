@@ -15,7 +15,7 @@ docker build -t ibzproject .
 # Start container manually
 docker run --rm --name ibzti18wtsa1 \
   -p 8080:80 \
-  -v $(pwd)/project:/usr/share/nginx/html/ibzti18w/<ProjectDirectory>project \
+  -v $(pwd)/project:/usr/share/nginx/html \
   -v $(pwd)/database:/var/lib/mysql \
   -e HOOK_SECRET=<HookSecret> \
   -it ibzproject bash

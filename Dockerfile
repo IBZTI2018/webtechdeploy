@@ -39,16 +39,19 @@ RUN apt-get install -y \
   mariadb-server \
   mariadb-client
 
-COPY adminer.php /usr/share/nginx/html
-COPY webhook.php /usr/share/nginx/html
+RUN mkdir /usr/share/nginx/html/~admin
+WORKDIR /usr/share/nginx/html/~admin
+
+RUN curl https://github.com/vrana/adminer/releases/download/v4.7.5/adminer-4.7.5-en.php -o adminer.php
+
+COPY nginx.conf /etc/nginx/sites-available/default
+COPY webhook.php /usr/share/nginx/html/~admin
 COPY entrypoint.sh /usr/sbin/
 COPY update.sh /usr/sbin/
-COPY nginx.conf /etc/nginx/sites-available/default
 
 RUN chmod +x /usr/sbin/update.sh
 RUN chmod +x /usr/sbin/entrypoint.sh
 RUN chown -R www-data:www-data /usr/share/nginx/html
-RUN mkdir -p /usr/share/nginx/html/project
 RUN rm /usr/share/nginx/html/index.html
 
 EXPOSE 80
