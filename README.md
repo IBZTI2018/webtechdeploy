@@ -1,5 +1,5 @@
 # IBZ TI18W Dockerized LEMP deployment
-This projects assumes that [nginx-proxy](https://github.com/jwilder/nginx-proxy) is running on your deployment host. It will create a self-container docker container with a LEMP stack (and [adminer.php](https://www.adminer.org/)) inside, that allows deploying a PHP+MySQL application directly via GitHub hooks. The intent of this project is to allow deployment of projects independent from the target host, so that they cannot interfere with the host system.
+This projects assumes that [nginx-proxy](https://github.com/jwilder/nginx-proxy) is running on your deployment host. It will create a self-contained docker container with a LEMP stack (and [adminer.php](https://www.adminer.org/)) inside, that allows deploying a PHP+MySQL application directly via GitHub hooks. The intent of this project is to allow deployment of projects independent from the target host, so that they cannot interfere with the host system.
 
 ----
 
