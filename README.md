@@ -12,7 +12,7 @@ Clone this repository, navigate into its directory and build the docker containe
  (You only need to do this once for the first project or once when using a newer version of this repository)
 
 #### 3. Set up your local repository
-Navigate into the `./project` directory inside this repository and set up your git repository. This assumes your repository is publically available.
+Navigate into the `./project` directory inside this repository and set up your git repository. This assumes your repository is publicly available.
 ```
 git init
 git remote add origin <https-origin>
@@ -22,7 +22,7 @@ git remote add origin <https-origin>
 Create a systemd service for the project with a file like the following:
 * `<your-project-directory>` is the directory of this repository on the host. e.g `/opt/webtechdeploy`
 * `<your-deploy-secret>` secret used by your GitHub deploy webhook (specify any)
-* `<your-project-domain>` subdomain your project should use ([see here](https://github.com/jwilder/nginx-proxy#usage))
+* `<your-project-domain>` sub domain your project should use ([see here](https://github.com/jwilder/nginx-proxy#usage))
 
 ```
 [Unit]
@@ -62,7 +62,7 @@ The database is persisted to the host system via docker volume
 
 
 ### Customization
-Projects deployed via this repository can contain a `.webtechdeploy` folder in their root to change some behaviour.
+Projects deployed via this repository can contain a `.webtechdeploy` folder in their root to change some behavior.
 
 * `./.webtechdeploy/postinstall.sh` Will be executed after installation.
 * `./.webtechdeploy/nginx.conf` Will be used as nginx config withing the container
