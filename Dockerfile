@@ -29,8 +29,8 @@ RUN apt-get update && \
     php7.3-fpm \
     php7.3-curl \
     php7.3-mysql \
-    php7.3-xml
-    php7.3-mbstring
+    php7.3-xml \
+    php7.3-mbstring \
     nginx \
     mariadb-common \
     mariadb-server \
