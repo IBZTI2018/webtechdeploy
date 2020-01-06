@@ -3,6 +3,8 @@
 echo "$HOOK_SECRET" > /etc/hook_secret
 
 echo "display_errors = on" >> /etc/php/7.3/fpm/php.ini
+echo "variables_order = \"EGPCS\"" >> /etc/php/7.3/fpm/php.ini
+echo "clear_env = no" >> /etc/php/7.3/fpm/pool.d/www.conf
 
 if [ ! -d /var/lib/mysql/mysql ]; then
   MARIADB_NEEDS_INITIAL_SETUP="yes"
