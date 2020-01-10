@@ -65,7 +65,7 @@ switch (strtolower($_SERVER['HTTP_X_GITHUB_EVENT'])) {
 		break;
 
 	case 'push':
-		var_dump(shell_exec("/usr/sbin/update.sh"));
+		var_dump(shell_exec("sudo /usr/sbin/update.sh"));
 		break;
 
 	default:

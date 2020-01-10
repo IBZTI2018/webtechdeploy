@@ -23,6 +23,7 @@ RUN apt-get update && \
   echo "deb https://packages.sury.org/php/ $(lsb_release -sc) main" | tee /etc/apt/sources.list.d/php7.list && \
   apt-get update && \
   apt-get install -y \
+    sudo \
     php7.3 \
     php7.3-cli \
     php7.3-common \
@@ -52,7 +53,8 @@ RUN php -r "copy('https://getcomposer.org/installer', 'composer-setup.php');" &&
   chmod +x /usr/sbin/update.sh && \
   chmod +x /usr/sbin/entrypoint.sh && \
   chown -R www-data:www-data /usr/share/nginx/html && \
-  rm /usr/share/nginx/html/index.html
+  rm /usr/share/nginx/html/index.html && \
+  echo "www-data ALL = NOPASSWD : /usr/sbin/update.sh" >> /etc/sudoers
 
 EXPOSE 80
 
